@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Comparaison execution Web assembly vs JavaScript</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>    
+    <style>
+    .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 60px;
+  height: 60px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}   
+.col-centered{
+    float: none;
+    margin: 0 auto;
+} 
+    </style>
+    
+  </head>
+  <body onload="hidePB();">
+
+    <!-- Include the JavaScript glue code. -->
+    <!-- This will load the WebAssembly module and run its main. --> 
+    <script src="modules.js"></script>
+    <script src="binaryTreesJS.js"></script> 
+    <!--script src="fannkuchredux.js"></script-->
+    <script src="fannkuchreduxJS.js"></script>
+    <!--script src="fasta.js"></script-->
+    <script src="fastaJS.js"></script>
+
+    <script type='text/javascript'>   
+            
+     
+      function showPB(){
+          $('#progress').show();
+      }
+      
+      function hidePB(){
+          $('#progress').hide();
+      }
+      
+      function binaryWas() {
+       setTimeout(showPB,1);
+       setTimeout(runBinaryWasWithCallback,20);
+      }
+      function runBinaryWasWithCallback() {        
+        document.getElementById("outputbinarytrees").innerHTML = "";
+        var t0 = performance.now();
+        var content = _binarytrees();
+        var t1 = performance.now();
+        document.getElementById("outputbinarytrees").innerHTML =  "Call to binaryTrees took " + ((t1 - t0)/1000).toFixed(1) + " s.";
+        hidePB();
+        //Pointer_stringify(content) +"\n"+ "Call to binaryTrees took " + (t1 - t0) + " milliseconds." + Module.print();
+      }
+      function runBinaryNativeWithCallback(){
+        document.getElementById("outputbinarytreesJS").innerHTML =  "";
+        var t0 = performance.now();
+        runBinaryTreesJS();
+        //runBinaryTreesJS();
+        var t1 = performance.now();
+        //hidePB();
+        document.getElementById("outputbinarytreesJS").innerHTML =  "Call to binaryTrees took " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        hidePB();
+      }
+      function binaryNative(){
+        setTimeout(showPB,1);
+        setTimeout (runBinaryNativeWithCallback,20);
+      }
+     
+      function fannkuchWas() {
+       setTimeout(showPB,1);
+       setTimeout(runFannkuchWasWithCallback,20);
+      }
+      function runFannkuchWasWithCallback() {
+        document.getElementById("outputfannkuch").innerHTML = "";
+        var t0 = performance.now();
+        var content = _fannkuchRedux();
+        var t1 = performance.now();
+        document.getElementById("outputfannkuch").innerHTML =  "Call to fannkuch-redux took " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        hidePB();
+        //Pointer_stringify(content) +"\n"+ "Call to binaryTrees took " + (t1 - t0) + " milliseconds." + Module.print();
+      }
+      function fannkuchNative(){
+       setTimeout(showPB,1);
+       setTimeout(runFannkuchNativeWithCallback,20);
+      }
+      function runFannkuchNativeWithCallback(){
+        document.getElementById("outputfannkuchJS").innerHTML =  "";
+        var t0 = performance.now();
+         runFannkuchreduxJS();
+        var t1 = performance.now();
+        document.getElementById("outputfannkuchJS").innerHTML =  "Call to fannkuch-redux took " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+         hidePB();
+      }
+      
+      function runfastaWasWithCallback() {
+        document.getElementById("outputfasta").innerHTML = "";
+        var t0 = performance.now();
+        var content = _fasta();
+        var t1 = performance.now();
+        document.getElementById("outputfasta").innerHTML =  "Call to fasta took " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        hidePB();
+      }
+      
+      function fastaWas() {
+        setTimeout(showPB,1);
+        setTimeout(runfastaWasWithCallback,20);
+      }
+      function runfastaNativeWithCallback(){
+        document.getElementById("outputfastaJS").innerHTML = "";
+        var t0 = performance.now();
+        runfastaJS();
+        var t1 = performance.now();
+        document.getElementById("outputfastaJS").innerHTML =  "Call to fasta took " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        hidePB();
+      }
+
+      function fastaNative(){
+       setTimeout(showPB,1);
+       setTimeout(runfastaNativeWithCallback,20);
+      }
+      
+      (function () {
+          var old = console.log;
+          var logger = document.getElementById("log");
+          console.log = function (message) {
+            if (typeof message == 'object') {
+               logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+            }else {
+                 logger.innerHTML += message + '<br />';
+            }
+        }
+      })();
+    </script>
+   
+    <div class="jumbotron text-center">
+       <h1>Comparer la performance (WebAssembly et JavaScript)</h1>
+       <p>Les sources de code C et JavaScript des exemples ci-dessous proviennent de la page :  <a href="https://benchmarksgame.alioth.debian.org" >The Computer Language
+Benchmarks Game</a>  </p>
+    </div>
+    
+    <div class="container">
+      <div class="row">
+          <div class="loader col-centered" id="progress"></div>
+       </div>
+      <!---------------------------------- BINARYTREES --> 
+      <div class="row">
+        <div class="col-sm">
+          <h3>Binarytrees WASM</h3>
+          <p><button type="button" onclick="binaryWas()" id="binarybutton" class="btn btn-primary btn-sm">Lancer l'exécution binary-trees wasm</button></p>
+          <p><a href="binarytrees.c" target="_blank">Source C</a></p>
+          <p id="outputbinarytrees" ></p>
+        </div>
+        <div class="col-sm">
+         <h3>Binarytrees JS</h3>
+         <p><button type="button" id="binarybuttonJS" class="btn btn-primary btn-sm" onclick="binaryNative()">Lancer l'exécution binary-trees JS</button></p>
+          <p><a href="binaryTreesJS.js" target="_blank">Source JavaScript</a></p> 
+         <p id="outputbinarytreesJS" ></p>
+        </div>
+       </div>
+
+      <!---------------------------------- FANNKUCH-REDUX -->
+      <div class="row">
+        <div class="col-sm">
+          <h3>Fannkuch-redux WASM</h3>
+          <p><button type="button" onclick="fannkuchWas()" id="fannkuchbutton" class="btn btn-primary btn-sm">Lancer l'exécution fannkuch-redux wasm</button></p>
+           <p><a href="fannkuchredux.c" target="_blank">Source C</a></p>
+          <p id="outputfannkuch" ></p>
+        </div>
+        <div class="col-sm">
+         <h3>Fannkuch-redux JS</h3>
+         <p><button type="button" onclick="fannkuchNative()" id="fannkuchbutton" class="btn btn-primary btn-sm">Lancer l'exécution fannkuch-redux JS</button></p>
+          <p><a href="fannkuchreduxJS.js" target="_blank">Source JavaScript</a></p> 
+         <p id="outputfannkuchJS" ></p>
+        </div>
+       </div>
+
+        <!---------------------------------- FASTA -->
+      <div class="row">
+        <div class="col-sm">
+          <h3>Fasta WASM</h3>
+          <p><button type="button" onclick="fastaWas()" id="fastabutton" class="btn btn-primary btn-sm">Lancer l'execution fasta wasm</button></p>
+          <p><a href="fasta.c" target="_blank">Source C</a></p>
+          <p id="outputfasta" ></p>
+        </div>
+        <div class="col-sm">
+         <h3>Fasta JS</h3>
+         <p><button type="button" onclick="fastaNative()" id="fastabutton" class="btn btn-primary btn-sm">Lancer l'execution fasta JS</button></p>
+          <p><a href="fastaJS.js" target="_blank">Source JavaScript</a></p>
+          <p id="outputfastaJS" ></p>
+        </div>
+       </div>
+       <div id="log" class="jumbotron text-center"></div>
+      <script type='text/javascript'> 
+        (function () {
+          var old = console.log;
+          var logger = document.getElementById("log");
+          console.log = function (message) {
+            if (typeof message == 'object') {
+               logger.innerHTML += (JSON && JSON.stringify ? JSON.stringify(message) : message) + '<br />';
+            }else {
+                 logger.innerHTML += message + '<br />';
+            }
+        }
+      })();
+    </script>
+    
+</body>
+</html> 
