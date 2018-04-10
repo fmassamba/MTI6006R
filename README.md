@@ -1,1 +1,1 @@
-# Cours dirigé MTI6006R
+# Comparaison de webAssembly et JavaScript
