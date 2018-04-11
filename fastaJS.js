@@ -41,12 +41,12 @@ function fastaRepeat(n, seq) {
   while (n>0) {
     if (n<lenOut) lenOut = n;
     if (seqi + lenOut < seq.length) {
-      console.log( seq.substring(seqi, seqi+lenOut) );
+      //console.log( seq.substring(seqi, seqi+lenOut) );
       seqi += lenOut;
     } else {
       var s = seq.substring(seqi);
       seqi = lenOut - s.length;
-      console.log( s + seq.substring(0, seqi) );
+      //console.log( s + seq.substring(0, seqi) );
     }
     n -= lenOut;
   }
@@ -66,14 +66,14 @@ function fastaRandom(n, table) {
         }
       }
     }
-    console.log( line.join('') );
+    //console.log( line.join('') );
     n -= line.length;
   }
 }
 
 function runfastaJS(){
 
-var n = 25000;
+var n = 25000000;
 
 console.log(">ONE Homo sapiens alu")
 fastaRepeat(2*n, ALU)

@@ -1,4 +1,3 @@
-<!DOCTYPE html>
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,7 +8,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>    
+    <script src="http://requirejs.org/docs/release/2.2.0/minified/require.js"></script>   
+     
     <style>
     .loader {
   border: 16px solid #f3f3f3;
@@ -64,15 +64,17 @@
        setTimeout(showPB,1);
        setTimeout(runBinaryWasWithCallback,20);
       }
+      
       function runBinaryWasWithCallback() {        
         document.getElementById("outputbinarytrees").innerHTML = "";
         var t0 = performance.now();
         var content = _binarytrees();
         var t1 = performance.now();
-        document.getElementById("outputbinarytrees").innerHTML =  "Durée d'execution binary-trees" + ((t1 - t0)/1000).toFixed(1) + " s.";
+        document.getElementById("outputbinarytrees").innerHTML =  "Durée d'exécution binary-trees " + ((t1 - t0)/1000).toFixed(1) + " s.";
         hidePB();
         //Pointer_stringify(content) +"\n"+ "Call to binaryTrees took " + (t1 - t0) + " milliseconds." + Module.print();
       }
+      
       function runBinaryNativeWithCallback(){
         document.getElementById("outputbinarytreesJS").innerHTML =  "";
         var t0 = performance.now();
@@ -80,9 +82,10 @@
         //runBinaryTreesJS();
         var t1 = performance.now();
         //hidePB();
-        document.getElementById("outputbinarytreesJS").innerHTML =  "Durée d'execution binary-trees " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        document.getElementById("outputbinarytreesJS").innerHTML =  "Durée d'exécution binary-trees " + ((t1 - t0)/1000).toFixed(1)  + " s.";
         hidePB();
       }
+
       function binaryNative(){
         setTimeout(showPB,1);
         setTimeout (runBinaryNativeWithCallback,20);
@@ -92,25 +95,28 @@
        setTimeout(showPB,1);
        setTimeout(runFannkuchWasWithCallback,20);
       }
+ 
       function runFannkuchWasWithCallback() {
         document.getElementById("outputfannkuch").innerHTML = "";
         var t0 = performance.now();
         var content = _fannkuchRedux();
         var t1 = performance.now();
-        document.getElementById("outputfannkuch").innerHTML =  "Durée d'execution fannkuch-redux " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        document.getElementById("outputfannkuch").innerHTML =  "Durée d'exécution fannkuch-redux " + ((t1 - t0)/1000).toFixed(1)  + " s.";
         hidePB();
         //Pointer_stringify(content) +"\n"+ "Call to binaryTrees took " + (t1 - t0) + " milliseconds." + Module.print();
       }
+
       function fannkuchNative(){
        setTimeout(showPB,1);
        setTimeout(runFannkuchNativeWithCallback,20);
       }
+
       function runFannkuchNativeWithCallback(){
         document.getElementById("outputfannkuchJS").innerHTML =  "";
         var t0 = performance.now();
          runFannkuchreduxJS();
         var t1 = performance.now();
-        document.getElementById("outputfannkuchJS").innerHTML =  "Durée d'execution fannkuch-redux " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        document.getElementById("outputfannkuchJS").innerHTML =  "Durée d'exécution fannkuch-redux " + ((t1 - t0)/1000).toFixed(1)  + " s.";
          hidePB();
       }
       
@@ -119,7 +125,7 @@
         var t0 = performance.now();
         var content = _fasta();
         var t1 = performance.now();
-        document.getElementById("outputfasta").innerHTML =  "Durée d'execution fasta " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        document.getElementById("outputfasta").innerHTML =  "Durée d'exécution fasta " + ((t1 - t0)/1000).toFixed(1)  + " s.";
         hidePB();
       }
       
@@ -127,12 +133,13 @@
         setTimeout(showPB,1);
         setTimeout(runfastaWasWithCallback,20);
       }
+
       function runfastaNativeWithCallback(){
         document.getElementById("outputfastaJS").innerHTML = "";
         var t0 = performance.now();
         runfastaJS();
         var t1 = performance.now();
-        document.getElementById("outputfastaJS").innerHTML =  "Durée d'execution fasta : " + ((t1 - t0)/1000).toFixed(1)  + " s.";
+        document.getElementById("outputfastaJS").innerHTML =  "Durée d'exécution fasta : " + ((t1 - t0)/1000).toFixed(1)  + " s.";
         hidePB();
       }
 
@@ -144,12 +151,15 @@
     </script>
    
     <div class="jumbotron text-center">
-       <h1>Comparer la performance (WebAssembly et JavaScript)</h1>
+       <h1>Comparaison de la performance: WebAssembly et JavaScript</h1>
        <p>Les sources de code C et JavaScript des exemples ci-dessous proviennent de la page :  <a href="https://benchmarksgame.alioth.debian.org"  target="_blank" >The Computer Language
 Benchmarks Game</a>  </p>
        <p><div class="alert alert-warning">
             <strong>Attention!</strong> Les tests peuvent prendre jusqu'à une minute.
           </div>
+       </p>
+       <p>
+        <a href="https://github.com/fmassamba/MTI6006R" target="_blank">Dépôt GitHub</a>
        </p>
     </div>
     
@@ -192,20 +202,22 @@ Benchmarks Game</a>  </p>
         <!---------------------------------- FASTA -->
       <div class="row">
         <div class="col-sm">
-          <h3>Fasta WASM</h3>
-          <p><button type="button" onclick="fastaWas()" id="fastabutton" class="btn btn-primary btn-sm">Lancer l'execution fasta wasm</button></p>
+          <h3>Fasta WASM sans sortie console</h3>
+          <p><button type="button" onclick="fastaWas()" id="fastabutton" class="btn btn-primary btn-sm">Lancer l'exécution fasta wasm</button></p>
           <p><a href="fasta.c" target="_blank">Source C</a></p>
           <p id="outputfasta" ></p>
         </div>
         <div class="col-sm">
-         <h3>Fasta JS</h3>
-         <p><button type="button" onclick="fastaNative()" id="fastabutton" class="btn btn-primary btn-sm">Lancer l'execution fasta JS</button></p>
+         <h3>Fasta JS sans sortie console</h3>
+         <p><button type="button" onclick="fastaNative()" id="fastabutton" class="btn btn-primary btn-sm">Lancer l'exécution fasta JS</button></p>
           <p><a href="fastaJS.js" target="_blank">Source JavaScript</a></p>
           <p id="outputfastaJS" ></p>
         </div>
        </div>
-       <div id="log" class="jumbotron text-center"></div>
-      <script type='text/javascript'> 
+       <!-- output -->
+       <pre id="log" class="w-50"></pre>
+   
+     <script type='text/javascript'> 
      (function () {
           var old = console.log;
           var logger = document.getElementById("log");

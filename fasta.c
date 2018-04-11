@@ -65,7 +65,7 @@ static void repeat_And_Wrap_String(const char string_To_Repeat[],
 
       // Output the line to stdout and update the
       // current_Number_Of_Characters_To_Create.
-      fwrite(line, line_Length+1, 1, stdout);
+      //fwrite(line, line_Length+1, 1, stdout);
       current_Number_Of_Characters_To_Create-=line_Length;
    }
 }
@@ -149,7 +149,7 @@ static void generate_And_Wrap_Pseudorandom_DNA_Sequence(
 
       // Output the line to stdout and update the
       // current_Number_Of_Characters_To_Create.
-      fwrite(line, line_Length+1, 1, stdout);
+      //fwrite(line, line_Length+1, 1, stdout);
       current_Number_Of_Characters_To_Create-=line_Length;
    }
 }
@@ -158,8 +158,8 @@ static void generate_And_Wrap_Pseudorandom_DNA_Sequence(
 int  EMSCRIPTEN_KEEPALIVE fasta(){
    clock_t begin;
    begin = clock();
-   fputs("Execution fiasta 25000\n",stdout);
-   const intnative_t n=atoi("25000");
+   fputs("Execution fiasta 25000000\n",stdout);
+   const intnative_t n=atoi("25000000");
 
    fputs(">ONE Homo sapiens alu\n", stdout);
    const char homo_Sapiens_Alu[]=
